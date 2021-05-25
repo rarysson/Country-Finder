@@ -22,6 +22,10 @@ html {
   font-family: "Montserrat", sans-serif;
 }
 
+:root {
+  --main-color: #6d2080;
+}
+
 button {
   font-family: inherit;
   cursor: pointer;
