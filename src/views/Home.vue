@@ -24,11 +24,19 @@
 
       <div class="countries-container">
         <country-card
-          v-for="country in countries"
+          v-for="country in paginatedCountries"
           :key="country.name"
           :country="country"
         />
       </div>
+
+      <pagination
+        v-if="pages > 1"
+        class="pagination"
+        :current-page="currentPage"
+        :pages="pages"
+        @change-page="changePage"
+      />
     </main>
   </div>
 </template>
@@ -38,6 +46,7 @@ import CountryCard from "../components/CountryCard.vue";
 import FilterByRegionSelect from "../components/FilterByRegionSelect.vue";
 import FilterSelect from "../components/FilterSelect.vue";
 import MHeader from "../components/MHeader.vue";
+import Pagination from "../components/Pagination.vue";
 import SearchInput from "../components/SearchInput.vue";
 
 export default {
@@ -48,7 +57,8 @@ export default {
     FilterSelect,
     FilterByRegionSelect,
     SearchInput,
-    CountryCard
+    CountryCard,
+    Pagination
   },
 
   data() {
@@ -56,7 +66,11 @@ export default {
       currentFilter: "",
       currentRegion: "",
       currentSearch: "",
-      countries: []
+      countries: [],
+      paginatedCountries: [],
+      currentPage: 1,
+      pages: 1,
+      maxCountriesPerPage: 12
     };
   },
 
@@ -81,6 +95,20 @@ export default {
       const countries = await response.json();
 
       this.countries = countries;
+      this.currentPage = 1;
+      this.pages = Math.round(this.countries.length / this.maxCountriesPerPage);
+      this.paginate();
+    },
+
+    paginate() {
+      const begin = (this.currentPage - 1) * this.maxCountriesPerPage;
+      const end = begin + this.maxCountriesPerPage;
+      this.paginatedCountries = this.countries.slice(begin, end);
+    },
+
+    changePage(page) {
+      this.currentPage = page;
+      this.paginate();
     }
   }
 };
@@ -121,5 +149,10 @@ main {
 .search-btn:disabled {
   cursor: not-allowed;
   opacity: 75%;
+}
+
+.pagination {
+  width: max-content;
+  margin: 50px auto 0;
 }
 </style>

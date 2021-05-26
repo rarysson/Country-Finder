@@ -37,6 +37,10 @@ input {
   font-family: inherit;
 }
 
+ul {
+  list-style: none;
+}
+
 /* Estilos do app */
 #app {
   height: 100vh;
