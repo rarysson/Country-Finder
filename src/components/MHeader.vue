@@ -2,7 +2,7 @@
   <header>
     <img src="../assets/logo.svg" alt="mova logo" class="logo" />
 
-    <button>
+    <button @click="$emit('go-back')">
       <img src="../assets/go_back.svg" alt="voltar" class="icon" />
       <span>Voltar</span>
     </button>

@@ -27,6 +27,7 @@
           v-for="country in paginatedCountries"
           :key="country.name"
           :country="country"
+          @country-selected="goToCountry"
         />
       </div>
 
@@ -80,6 +81,16 @@ export default {
     }
   },
 
+  beforeMount() {
+    const region = this.$route.params.region;
+
+    if (region) {
+      this.currentFilter = "region";
+      this.currentRegion = region;
+      this.searchCountry();
+    }
+  },
+
   methods: {
     handleFilterChange(filter) {
       this.currentFilter = filter;
@@ -96,7 +107,8 @@ export default {
 
       this.countries = countries;
       this.currentPage = 1;
-      this.pages = Math.round(this.countries.length / this.maxCountriesPerPage);
+      this.pages =
+        Math.round(this.countries.length / this.maxCountriesPerPage) || 1;
       this.paginate();
     },
 
@@ -109,6 +121,10 @@ export default {
     changePage(page) {
       this.currentPage = page;
       this.paginate();
+    },
+
+    goToCountry(country) {
+      this.$router.push({ name: "Country", params: { country } });
     }
   }
 };
