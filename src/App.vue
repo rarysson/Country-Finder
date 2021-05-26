@@ -24,14 +24,21 @@ html {
 
 :root {
   --main-color: #6d2080;
+  --gray-color: #8d8d8d;
 }
 
 button {
   font-family: inherit;
   cursor: pointer;
+  border: none;
 }
 
 input {
   font-family: inherit;
+}
+
+/* Estilos do app */
+#app {
+  height: 100vh;
 }
 </style>
