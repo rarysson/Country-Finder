@@ -4,13 +4,15 @@
 
     <main>
       <div class="filters-container">
-        <filter-select @filter="handleFilterChange" />
+        <filter-select class="filter-select" @filter="handleFilterChange" />
         <filter-by-region-select
           v-show="currentFilter === 'region'"
+          class="secondary-filter"
           @filter="currentRegion = $event"
         />
         <search-input
           v-show="currentFilter !== 'region' && currentFilter"
+          class="secondary-filter"
           @input="currentSearch = $event"
         />
         <button
@@ -138,7 +140,7 @@ export default {
 main {
   max-width: 1125px;
   margin: 0 auto;
-  padding: 150px 0 50px;
+  padding: 150px 25px 50px;
 }
 
 .filters-container {
@@ -170,5 +172,40 @@ main {
 .pagination {
   width: max-content;
   margin: 50px auto 0;
+}
+
+@media (max-width: 900px) {
+  .filters-container {
+    display: grid;
+    grid-template:
+      "filter secondary"
+      ". btn";
+    gap: 25px;
+  }
+
+  .search-btn {
+    grid-area: btn;
+  }
+}
+
+@media (max-width: 600px) {
+  main {
+    padding-top: 50px;
+  }
+
+  .filters-container {
+    grid-template:
+      "filter filter"
+      "secondary secondary"
+      ". btn";
+  }
+
+  .filter-select {
+    grid-area: filter;
+  }
+
+  .secondary-filter {
+    grid-area: secondary;
+  }
 }
 </style>

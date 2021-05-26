@@ -34,6 +34,6 @@ input {
   border-bottom: 1px solid var(--gray-color);
   padding: 5px;
   width: 100%;
-  min-width: 300px;
+  min-width: 250px;
 }
 </style>

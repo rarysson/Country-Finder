@@ -57,7 +57,7 @@ select {
   padding: 5px 25px 5px 5px;
   appearance: none;
   width: 100%;
-  min-width: 300px;
+  min-width: 250px;
 }
 
 option {

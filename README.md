@@ -4,9 +4,11 @@ Country Finder é um projeto que demonstra os países e permite filtrar pela esc
 
 ## Tecnologias utilizadas
 
--   [Vue](https://vuejs.org/)
+- [Vue](https://vuejs.org/)
 
 ## Usando o APP
+
+Para usar online acesse o link: https://rarysson.github.io/Country-Finder/
 
 Para usar localmente, clone o repositório, vá na pasta criada e execute os comandos:
 

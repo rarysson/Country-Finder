@@ -45,4 +45,19 @@ button {
 span {
   padding-left: 20px;
 }
+
+@media (max-width: 375px) {
+  header {
+    padding: 15px 20px;
+  }
+
+  button {
+    border: none;
+    padding: 7px 10px;
+  }
+
+  span {
+    display: none;
+  }
+}
 </style>

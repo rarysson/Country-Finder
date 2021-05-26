@@ -127,7 +127,7 @@ export default {
 main {
   max-width: 1125px;
   margin: 0 auto;
-  padding: 150px 0 100px;
+  padding: 150px 25px 100px;
   display: flex;
 }
 
@@ -153,7 +153,7 @@ ul {
 footer {
   max-width: 1125px;
   margin: 0 auto;
-  padding-bottom: 75px;
+  padding: 0 25px 75px;
 }
 
 footer p {
@@ -170,5 +170,25 @@ footer p {
 .pagination {
   width: max-content;
   margin: 50px auto 0;
+}
+
+@media (max-width: 768px) {
+  main img {
+    width: 300px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 500px) {
+  main {
+    padding-top: 50px;
+    flex-direction: column;
+  }
+
+  main img {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 25px;
+  }
 }
 </style>
