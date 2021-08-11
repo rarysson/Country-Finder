@@ -41,12 +41,17 @@ export default {
       validator(value) {
         return value.every((option) => option.label && option.value);
       }
+    },
+
+    initialValue: {
+      type: String,
+      default: ""
     }
   },
 
   data() {
     return {
-      value: "",
+      value: this.initialValue,
       componentId: localId++
     };
   }

@@ -5,25 +5,33 @@
     <main>
       <div class="filters-container">
         <filter-select
+          class="filter-select"
           :title="filterTypes.filterTitle"
           :placeholder-option="filterTypes.filterPlaceholderOption"
           :options="filterTypes.filterOptions"
+          :initialValue="currentFilter"
           @filter="handleFilterChange"
         />
 
-        <filter-select
-          v-show="currentFilter === 'region'"
-          :title="filterByRegion.filterTitle"
-          :placeholder-option="filterByRegion.filterPlaceholderOption"
-          :options="filterByRegion.filterOptions"
-          @filter="currentRegion = $event"
-        />
+        <transition name="disappear-on-down" mode="out-in">
+          <filter-select
+            v-show="currentFilter === 'region'"
+            class="secondary-filter"
+            :title="filterByRegion.filterTitle"
+            :placeholder-option="filterByRegion.filterPlaceholderOption"
+            :options="filterByRegion.filterOptions"
+            :initialValue="currentRegion"
+            @filter="currentRegion = $event"
+          />
+        </transition>
 
-        <search-input
-          v-show="currentFilter !== 'region' && currentFilter"
-          class="secondary-filter"
-          @input="currentSearch = $event"
-        />
+        <transition name="disappear-on-down" mode="out-in">
+          <search-input
+            v-show="currentFilter !== 'region' && currentFilter"
+            class="secondary-filter"
+            @input="currentSearch = $event"
+          />
+        </transition>
 
         <button
           class="search-btn"
@@ -97,7 +105,7 @@ export default {
 
     if (region) {
       this.currentFilter = "region";
-      this.currentRegion = region;
+      this.currentRegion = region.toLowerCase();
       this.searchCountry();
     }
   },

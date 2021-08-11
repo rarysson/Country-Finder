@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <transition name="disappear-on-left" mode="out-in">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -44,5 +46,28 @@ ul {
 /* Estilos do app */
 #app {
   height: 100vh;
+}
+
+/* Transições */
+.disappear-on-left-enter-active,
+.disappear-on-left-leave-active {
+  transition: all 250ms;
+}
+
+.disappear-on-left-enter,
+.disappear-on-left-leave-to {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+.disappear-on-down-enter-active,
+.disappear-on-down-leave-active {
+  transition: all 250ms;
+}
+
+.disappear-on-down-enter,
+.disappear-on-down-leave-to {
+  opacity: 0;
+  transform: translateY(-50px);
 }
 </style>

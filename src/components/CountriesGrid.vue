@@ -1,27 +1,34 @@
 <template>
   <div>
-    <div class="countries-container">
+    <transition-group
+      tag="div"
+      class="countries-container"
+      name="disappear-on-left"
+      mode="out-in"
+    >
       <country-card
         v-for="country in paginatedCountries"
         :key="country.name"
         :country="country"
         @country-selected="$emit('country-selected', $event)"
       />
-    </div>
+    </transition-group>
 
-    <pagination
-      v-if="pages > 1"
-      class="pagination"
-      :current-page="currentPage"
-      :pages="pages"
-      @change-page="changePage"
-    />
+    <transition name="disappear-on-down" mode="out-in">
+      <pagination
+        v-if="pages > 1"
+        class="pagination"
+        :current-page="currentPage"
+        :pages="pages"
+        @change-page="changePage"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
-import CountryCard from "./CountriesContainer/CountryCard.vue";
-import Pagination from "./CountriesContainer/Pagination.vue";
+import CountryCard from "./CountriesGrid/CountryCard.vue";
+import Pagination from "./CountriesGrid/Pagination.vue";
 
 export default {
   name: "CountriesGrid",
@@ -74,7 +81,7 @@ export default {
 <style scoped>
 .countries-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
   justify-content: center;
   gap: 20px 90px;
 }
