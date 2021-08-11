@@ -49,8 +49,14 @@ export default {
   },
 
   beforeMount() {
-    this.country = this.$route.params.country;
-    this.setNeighbors(this.country.borders);
+    const country = this.$route.params.country;
+
+    if (!country) {
+      this.$router.replace("/");
+    } else {
+      this.country = country;
+      this.setNeighbors(this.country.borders);
+    }
   },
 
   methods: {

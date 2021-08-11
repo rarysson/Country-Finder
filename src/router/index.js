@@ -14,6 +14,10 @@ const routes = [
     path: "/country",
     name: "Country",
     component: () => import("../views/Country.vue")
+  },
+  {
+    path: "*",
+    redirect: { name: "Home" }
   }
 ];
 
