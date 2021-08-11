@@ -1,26 +1,53 @@
 <template>
   <div class="container">
-    <span>Filtrar por</span>
+    <span>{{ title }}</span>
+
     <div class="select-wrapper">
       <select v-model="value" @change="$emit('filter', value)">
-        <option value="" disabled>Escolha uma opção</option>
-        <option value="region">Região</option>
-        <option value="capital">Capital</option>
-        <option value="lang">Língua</option>
-        <option value="name">País</option>
-        <option value="callingcode">Código de ligação</option>
+        <option value="" disabled>{{ placeholderOption }}</option>
+
+        <option
+          v-for="(option, index) in options"
+          :key="`option-${index}-${componentId}`"
+          :value="option.value"
+        >
+          {{ option.label }}
+        </option>
       </select>
     </div>
   </div>
 </template>
 
 <script>
+let localId = 0;
+
 export default {
   name: "FilterSelect",
 
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+
+    placeholderOption: {
+      type: String,
+      required: true
+    },
+
+    options: {
+      type: Array,
+      required: true,
+      validator(value) {
+        return value.every((option) => option.label && option.value);
+      }
+    }
+  },
+
   data() {
     return {
-      value: ""
+      value: "",
+      componentId: localId++
     };
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div lass="page-container">
-    <m-header @go-back="$router.push('/')" />
+    <app-header show-back-button @go-back="$router.push('/')" />
 
     <main v-if="country !== null">
       <img :src="country.flag" alt="country flag" />
@@ -21,48 +21,30 @@
     <footer>
       <p>Países Vizinhos:</p>
 
-      <div class="countries-container">
-        <country-card
-          v-for="countryCard in paginatedCountries"
-          :key="countryCard.name"
-          :country="countryCard"
-          @country-selected="changeCountry"
-        />
-      </div>
-
-      <pagination
-        v-if="pages > 1"
-        class="pagination"
-        :current-page="currentPage"
-        :pages="pages"
-        @change-page="changePage"
+      <countries-grid
+        :countries="countries"
+        @country-selected="changeCountry"
       />
     </footer>
   </div>
 </template>
 
 <script>
-import MHeader from "../components/MHeader.vue";
-import Pagination from "../components/Pagination.vue";
-import CountryCard from "../components/CountryCard.vue";
+import AppHeader from "../components/AppHeader.vue";
+import CountriesGrid from "../components/CountriesGrid.vue";
 
 export default {
   name: "Country",
 
   components: {
-    MHeader,
-    Pagination,
-    CountryCard
+    AppHeader,
+    CountriesGrid
   },
 
   data() {
     return {
       country: null,
-      countries: [],
-      paginatedCountries: [],
-      currentPage: 1,
-      pages: 1,
-      maxCountriesPerPage: 12
+      countries: []
     };
   },
 
@@ -77,31 +59,17 @@ export default {
     },
 
     async setNeighbors(neighbors) {
-      this.countries = [];
+      const countries = [];
 
       for (let i = 0; i < neighbors.length; i++) {
         const response = await fetch(
           `https://restcountries.eu/rest/v2/alpha/${neighbors[i]}`
         );
         const country = await response.json();
-        this.countries.push(country);
+        countries.push(country);
       }
 
-      this.currentPage = 1;
-      this.pages =
-        Math.round(this.countries.length / this.maxCountriesPerPage) || 1;
-      this.paginate();
-    },
-
-    paginate() {
-      const begin = (this.currentPage - 1) * this.maxCountriesPerPage;
-      const end = begin + this.maxCountriesPerPage;
-      this.paginatedCountries = this.countries.slice(begin, end);
-    },
-
-    changePage(page) {
-      this.currentPage = page;
-      this.paginate();
+      this.countries = countries;
     },
 
     changeCountry(country) {
@@ -158,18 +126,6 @@ footer {
 
 footer p {
   margin-bottom: 50px;
-}
-
-.countries-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
-  justify-content: center;
-  gap: 20px 90px;
-}
-
-.pagination {
-  width: max-content;
-  margin: 50px auto 0;
 }
 
 @media (max-width: 768px) {

@@ -1,20 +1,30 @@
 <template>
   <div class="page-container">
-    <m-header />
+    <app-header />
 
     <main>
       <div class="filters-container">
-        <filter-select class="filter-select" @filter="handleFilterChange" />
-        <filter-by-region-select
+        <filter-select
+          :title="filterTypes.filterTitle"
+          :placeholder-option="filterTypes.filterPlaceholderOption"
+          :options="filterTypes.filterOptions"
+          @filter="handleFilterChange"
+        />
+
+        <filter-select
           v-show="currentFilter === 'region'"
-          class="secondary-filter"
+          :title="filterByRegion.filterTitle"
+          :placeholder-option="filterByRegion.filterPlaceholderOption"
+          :options="filterByRegion.filterOptions"
           @filter="currentRegion = $event"
         />
+
         <search-input
           v-show="currentFilter !== 'region' && currentFilter"
           class="secondary-filter"
           @input="currentSearch = $event"
         />
+
         <button
           class="search-btn"
           :disabled="searchDisabled"
@@ -24,44 +34,25 @@
         </button>
       </div>
 
-      <div class="countries-container">
-        <country-card
-          v-for="country in paginatedCountries"
-          :key="country.name"
-          :country="country"
-          @country-selected="goToCountry"
-        />
-      </div>
-
-      <pagination
-        v-if="pages > 1"
-        class="pagination"
-        :current-page="currentPage"
-        :pages="pages"
-        @change-page="changePage"
-      />
+      <countries-grid :countries="countries" @country-selected="goToCountry" />
     </main>
   </div>
 </template>
 
 <script>
-import CountryCard from "../components/CountryCard.vue";
-import FilterByRegionSelect from "../components/FilterByRegionSelect.vue";
 import FilterSelect from "../components/FilterSelect.vue";
-import MHeader from "../components/MHeader.vue";
-import Pagination from "../components/Pagination.vue";
+import AppHeader from "../components/AppHeader.vue";
 import SearchInput from "../components/SearchInput.vue";
+import CountriesGrid from "../components/CountriesGrid.vue";
 
 export default {
   name: "Home",
 
   components: {
-    MHeader,
+    AppHeader,
     FilterSelect,
-    FilterByRegionSelect,
     SearchInput,
-    CountryCard,
-    Pagination
+    CountriesGrid
   },
 
   data() {
@@ -70,10 +61,28 @@ export default {
       currentRegion: "",
       currentSearch: "",
       countries: [],
-      paginatedCountries: [],
-      currentPage: 1,
-      pages: 1,
-      maxCountriesPerPage: 12
+      filterTypes: {
+        filterTitle: "Filtrar por",
+        filterPlaceholderOption: "Escolha uma opção",
+        filterOptions: [
+          { label: "Região", value: "region" },
+          { label: "Capital", value: "capital" },
+          { label: "Língua", value: "lang" },
+          { label: "País", value: "name" },
+          { label: "Código de ligação", value: "callingcode" }
+        ]
+      },
+      filterByRegion: {
+        filterTitle: "Região",
+        filterPlaceholderOption: "Escolha uma região",
+        filterOptions: [
+          { label: "África", value: "africa" },
+          { label: "Américas", value: "americas" },
+          { label: "Ásia", value: "asia" },
+          { label: "Europa", value: "europe" },
+          { label: "Oceania", value: "oceania" }
+        ]
+      }
     };
   },
 
@@ -108,21 +117,6 @@ export default {
       const countries = await response.json();
 
       this.countries = countries;
-      this.currentPage = 1;
-      this.pages =
-        Math.round(this.countries.length / this.maxCountriesPerPage) || 1;
-      this.paginate();
-    },
-
-    paginate() {
-      const begin = (this.currentPage - 1) * this.maxCountriesPerPage;
-      const end = begin + this.maxCountriesPerPage;
-      this.paginatedCountries = this.countries.slice(begin, end);
-    },
-
-    changePage(page) {
-      this.currentPage = page;
-      this.paginate();
     },
 
     goToCountry(country) {
@@ -149,13 +143,6 @@ main {
   margin-bottom: 50px;
 }
 
-.countries-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
-  justify-content: center;
-  gap: 20px 90px;
-}
-
 .search-btn {
   text-transform: uppercase;
   color: white;
@@ -167,11 +154,6 @@ main {
 .search-btn:disabled {
   cursor: not-allowed;
   opacity: 75%;
-}
-
-.pagination {
-  width: max-content;
-  margin: 50px auto 0;
 }
 
 @media (max-width: 900px) {

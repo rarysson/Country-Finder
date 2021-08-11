@@ -2,7 +2,7 @@
   <header>
     <img src="../assets/logo.svg" alt="mova logo" class="logo" />
 
-    <button @click="$emit('go-back')">
+    <button v-if="showBackButton" @click="$emit('go-back')">
       <img src="../assets/go_back.svg" alt="voltar" class="icon" />
       <span>Voltar</span>
     </button>
@@ -11,7 +11,14 @@
 
 <script>
 export default {
-  name: "MHeader"
+  name: "AppHeader",
+
+  props: {
+    showBackButton: {
+      type: Boolean,
+      default: false
+    }
+  }
 };
 </script>
 
