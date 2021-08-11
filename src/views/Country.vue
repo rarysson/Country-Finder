@@ -18,14 +18,16 @@
       </ul>
     </main>
 
-    <footer>
-      <p>Países Vizinhos:</p>
+    <transition name="disappear-on-down" mode="out-in">
+      <footer v-show="countries.length > 0">
+        <p>Países Vizinhos:</p>
 
-      <countries-grid
-        :countries="countries"
-        @country-selected="changeCountry"
-      />
-    </footer>
+        <countries-grid
+          :countries="countries"
+          @country-selected="changeCountry"
+        />
+      </footer>
+    </transition>
   </div>
 </template>
 
@@ -116,6 +118,10 @@ main img {
   color: var(--main-color);
   text-decoration: underline;
   cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: none;
 }
 
 ul {

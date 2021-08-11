@@ -67,8 +67,14 @@ ul {
 
 button {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  border: 1px solid transparent;
   border-radius: 5px;
   background-color: white;
+  transition: all 250ms;
+}
+
+button:hover {
+  border-color: var(--main-color);
 }
 
 .control-btn {

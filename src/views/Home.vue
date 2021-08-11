@@ -155,13 +155,20 @@ main {
   text-transform: uppercase;
   color: white;
   background-color: var(--main-color);
+  border: 1px solid var(--main-color);
   border-radius: 10px;
   padding: 10px 35px;
+  transition: all 250ms;
 }
 
 .search-btn:disabled {
   cursor: not-allowed;
   opacity: 75%;
+}
+
+.search-btn:hover:not(:disabled) {
+  color: var(--main-color);
+  background-color: white;
 }
 
 @media (max-width: 900px) {

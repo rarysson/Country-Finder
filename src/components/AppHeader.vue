@@ -37,6 +37,17 @@ button {
   background-color: transparent;
   font-size: 14px;
   color: var(--main-color);
+  transition: all 250ms;
+}
+
+button:hover {
+  color: white;
+  background-color: var(--main-color);
+}
+
+button:hover img {
+  filter: brightness(0) saturate(100%) invert(99%) sepia(1%) saturate(4%)
+    hue-rotate(332deg) brightness(102%) contrast(103%);
 }
 
 .logo {

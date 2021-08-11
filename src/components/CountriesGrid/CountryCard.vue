@@ -34,5 +34,11 @@ img {
   width: 100%;
   height: 180px;
   object-fit: cover;
+  transition: all 250ms;
+}
+
+img:hover {
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.25);
+  transform: scale(1.1);
 }
 </style>
